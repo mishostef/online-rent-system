@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
         logout: {
             background: 'none',
-            color:'white',
+            color: 'white',
             border: 'none',
             fontFamily: 'The Nautigal, cursive',
             textDecoration: 'underline',
@@ -160,6 +160,9 @@ const PrimarySearchAppBar: React.FC<{ user: IUser }> = ({ user }) => {
                     </div>
                     <div className={classes.grow}>
                         <ul className="nav-links">
+                            <li className="white">
+                                <NavLink to="/" className="active">Home</NavLink>
+                            </li>
                             <li className="white">
                                 <NavLink to="/login" className="active">Login</NavLink>
                             </li>
