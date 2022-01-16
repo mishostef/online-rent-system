@@ -1,0 +1,55 @@
+{
+  "name": "rent-system",
+  "version": "1.0.0",
+  "description": "nodejs typescript demos",
+  "main": "server.js",
+  "author": "Mihail Stefanov",
+  "license": "Apache-2.0",
+  "private": false,
+  "scripts": {
+    "server": "node --inspect=5858 -r ts-node/register ./src/server.ts",
+    "tsc": "tsc -w",
+    "start": "concurrently --kill-others \"nodemon\" \"livereload ./dist -d\"",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/jsonwebtoken": "^8.5.6",
+    "@types/multer": "^1.4.7",
+    "@types/socket.io": "^3.0.2",
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^4.7.3",
+    "multer": "^1.4.4",
+    "rxjs": "^6.5.5",
+    "socket.io": "^4.4.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.6",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^14.0.14",
+    "concurrently": "^5.2.0",
+    "eslint": "^7.3.1",
+    "eslint-plugin-import": "^2.22.0",
+    "livereload": "^0.9.1",
+    "nodemon": "^2.0.15",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      ".git",
+      "node_modules"
+    ],
+    "watch": [
+      "src"
+    ],
+    "exec": "npm run tsc",
+    "ext": "ts"
+  }
+}
