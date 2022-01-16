@@ -1,0 +1,9 @@
+.resouce-list.container{
+    display: flex;
+    justify-content: space-around;
+}
+.resouce-list.item{
+    flex:none;
+    height: 200px;
+    box-sizing: border-box;
+}
