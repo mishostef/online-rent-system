@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
 import { alpha, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -13,8 +11,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './Navigation.css';
-import { getCookieJWTInfo } from '../services/userservice';
 import { IUser } from '../models/IUser';
+import { useState } from 'react';
 
 
 
@@ -94,7 +92,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const PrimarySearchAppBar: React.FC<{ user: IUser }> = ({ user }) => {
     const navigate = useNavigate();
     const classes = useStyles();
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     const isMenuOpen = Boolean(anchorEl);
 
@@ -161,7 +159,7 @@ const PrimarySearchAppBar: React.FC<{ user: IUser }> = ({ user }) => {
                     <div className={classes.grow}>
                         <ul className="nav-links">
                             <li className="white">
-                                <NavLink to="/xx" className="active">Home</NavLink>
+                                <NavLink to="/" className="active">Home</NavLink>
                             </li>
                             <li className="white">
                                 <NavLink to="/login" className="active">Login</NavLink>
