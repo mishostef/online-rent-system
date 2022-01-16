@@ -161,7 +161,7 @@ const PrimarySearchAppBar: React.FC<{ user: IUser }> = ({ user }) => {
                     <div className={classes.grow}>
                         <ul className="nav-links">
                             <li className="white">
-                                <NavLink to="/" className="active">Home</NavLink>
+                                <NavLink to="/xx" className="active">Home</NavLink>
                             </li>
                             <li className="white">
                                 <NavLink to="/login" className="active">Login</NavLink>
