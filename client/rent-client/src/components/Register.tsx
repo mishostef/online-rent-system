@@ -41,13 +41,10 @@ const Register: React.FC<{}> = () => {
             console.log(values);
             try {
                 const res = await register(values);
-                console.log(res);
-                console.log(res.data);///
+                console.log(res.data);
                 sessionStorage.setItem('SESSION_TOKEN', res['SESSION_TOKEN']);
                 navigate('/');
-            } catch (err: any) {
-                console.log(err);
-                console.log(err.response);
+            } catch (err: any) {              
                 alert(err.response.data);
             }
         },

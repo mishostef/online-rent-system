@@ -4,6 +4,9 @@ import jwt_decode from 'jwt-decode';
 import { IUser } from "../models/IUser";
 import axios from "axios";
 
+
+
+
 //if (token) axios.defaults.headers.common['authorization'] = token;
 export const options = function () {
     const token = (sessionStorage.getItem('SESSION_TOKEN'));
@@ -18,7 +21,7 @@ function getCookieJWTInfo(): IUser | null {
 ///ResourceService
 async function bookResource(resourceId: string) {
     const user = getCookieJWTInfo();
-    return axios.post(`${resourcesAddress}/${resourceId}`, { userId: user?._id }, { withCredentials: true });
+    return axios.post(`${resourcesAddress}/${resourceId}`, { userId: user?._id }, options());
 }
 
 async function deleteResource(resourceId: string) {
@@ -28,6 +31,15 @@ async function deleteResource(resourceId: string) {
 async function likeResource(resourceId: string) {
     const user = getCookieJWTInfo();
     return axios.post(`${resourcesAddress}/${resourceId}/likes`, { userId: user?._id, likes: 1 }, { withCredentials: true });
+}
+
+async function addComment(url: string, text: string,) {
+    return axios.post(url, { text }, options());
+
+}
+
+async function editComment(url: string, text: string) {
+    return axios.put(url, { text }, options());
 }
 ///CommentService
 
@@ -56,6 +68,8 @@ export {
     likeResource,
     getAllCommentsByResourceId,
     getAllUsers,
-    deleteMany
+    deleteMany,
+    addComment,
+    editComment
 }
 

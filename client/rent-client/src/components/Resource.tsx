@@ -1,31 +1,23 @@
 import React, { useState } from "react";
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import { Tooltip } from '@material-ui/core';
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
+import {
+    Avatar, Card, CardActions, CardContent, CardMedia, CardHeader, Collapse,
+    IconButton, Typography, Tooltip
+} from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import { Comment, Edit } from "@material-ui/icons";
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { Comment, Delete, Edit, HouseRounded } from "@material-ui/icons";
 import { IResourceIdentifiable } from "../models/IResourceIdentifiable";
 import { resource as res } from '../enums/resource';
-import { Delete, HouseRounded } from "@material-ui/icons";
 import ReactMarkdown from "react-markdown";
 import { bookResource, getCookieJWTInfo, deleteResource, likeResource, getAllCommentsByResourceId } from "../services/userservice";
 import { staticAddress } from "../constants";
 import { useNavigate } from "react-router-dom";
 import { getDateString } from "../utils/utils";
 import MyPopover from "./MyPopover";
-import Favourite from '@material-ui/icons/Favorite';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -92,7 +84,6 @@ const Resource: React.FC<{ resource: IResourceIdentifiable, DeleteById: Function
                 const response = await deleteResource(resourceId);
                 console.log(response.data.message);
                 DeleteById(resource._id);
-                // alert(response.data.message);
             } catch (err) {
                 alert((err as any).response?.data.message);
             }

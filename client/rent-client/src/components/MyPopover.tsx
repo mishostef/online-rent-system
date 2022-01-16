@@ -1,22 +1,37 @@
-import { List, ListItem, ListItemIcon, ListItemText, Popover } from "@material-ui/core"
-import { Drafts, Inbox } from "@material-ui/icons"
-import { useState } from "react"
+import { List, ListItem, ListItemIcon, ListItemText, makeStyles, Popover, ThemeProvider, Typography } from "@material-ui/core"
+import { Comment } from "@material-ui/icons"
+
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        padding: '10px',//theme.spacing(1),
+        margin: '10px'
+    },
+}))
 
 const MyPopover: React.FC<{ open: boolean, anchorEl: any, items: string[], handleClose: Function }> = ({ open, anchorEl, items, handleClose }) => {
-
-    const listItems = items.map(item => <li>{item}</li>)
+    const classes = useStyles();
+    const listItems = items.map(item => <ListItem button>
+        <ListItemIcon>
+            <Comment />
+        </ListItemIcon>
+        <ListItemText primary={item} />
+    </ListItem>)
     function handlePopoverClose() {
         handleClose();
     }
-    return (<Popover onClick={handlePopoverClose}
-        open={open}
-        anchorEl={anchorEl}
-        anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-    >
-        comments:
-        <ul>
-            <li>{listItems}</li>
-        </ul>
-    </Popover>)
+    return (
+        <Popover onClick={handlePopoverClose}
+            open={open}
+            anchorEl={anchorEl}
+            anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+        >
+            <p> <Typography className={classes.root} variant="h6" color="primary">
+                comments
+            </Typography>
+            </p>
+            <List component="nav" aria-label="main mailbox folders">{listItems}</List>
+        </Popover >
+    )
 }
 export default MyPopover;

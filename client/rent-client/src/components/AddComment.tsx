@@ -4,9 +4,9 @@ import { ReactElement } from "react";
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import TextField from '@material-ui/core/TextField';
-import axios from "axios";
 import { resourcesAddress } from '../constants'
 import { useNavigate, useParams } from "react-router";
+import { addComment, editComment } from "../services/userservice";
 
 
 const validationSchema = yup.object({
@@ -29,27 +29,15 @@ const AddComment: React.FC<{ initialV: string, method?: string, commentId?: stri
         },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
-
-            // alert(JSON.stringify(values, null, 2));
             console.log(values);
-
             const url = method === 'POST' ? `${resourcesAddress}/${resourceId}/comments` :
                 `${resourcesAddress}/${resourceId}/comments/${commentId}`;
-
-            method === 'POST' ? axios.post(url, { text: values.txt },
-                { withCredentials: true })
-                .then(res => {
-                    console.log(res);
-                    console.log(res.data);
-                    navigate('/');
-                }).catch(err => console.log(err)) :
-                axios.put(url, { text: values.txt },
-                    { withCredentials: true })
-                    .then(res => {
-                        console.log(res);
-                        console.log(res.data);
-                        navigate('/');
-                    }).catch(err => console.log(err));
+            try {
+                method === 'POST' ? await addComment(url, values.txt) : await editComment(url, values.txt)
+                navigate('/');
+            } catch (err) {
+                console.log(err);
+            }
         },
     });
 

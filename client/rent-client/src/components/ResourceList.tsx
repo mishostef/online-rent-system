@@ -1,10 +1,7 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import axios from 'axios';
-import { IResource } from "../models/IResource";
-import { resource } from '../enums/resource'
 import Resource from "./Resource";
 import { IResourceIdentifiable } from "../models/IResourceIdentifiable";
-import { date } from "yup/lib/locale";
 import './ResourceList.css';
 import { resourcesAddress } from "../constants";
 
