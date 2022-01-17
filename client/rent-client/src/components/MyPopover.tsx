@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
 
 const MyPopover: React.FC<{ open: boolean, anchorEl: any, items: string[], handleClose: Function }> = ({ open, anchorEl, items, handleClose }) => {
     const classes = useStyles();
-    const listItems = items.map(item => <ListItem button>
+    const listItems = items.map((item, index) => <ListItem key={index} button>
         <ListItemIcon>
             <Comment />
         </ListItemIcon>

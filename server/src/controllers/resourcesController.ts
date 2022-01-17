@@ -3,7 +3,7 @@ import { appendFile } from "fs";
 const router = Router();
 import * as multer from 'multer';
 import { createResource, editResource, getAllResources, getResourceById, deleteResourceById, likeResource, getResourceComments } from '../services/resourceService'
-import{addComment, editComment}from '../services/commentService'
+import { addComment, editComment } from '../services/commentService'
 import { bookResource } from "../services/userService";
 
 
@@ -148,10 +148,10 @@ router.put(`/:resourceId/comments/:commentId`, async (req, res) => {
     }
 })
 
-router.delete('/:resourceId', (req, res) => {
+router.delete('/:resourceId', async (req, res) => {
     const resourceId = req.params.resourceId;
     try {
-        deleteResourceById(resourceId);
+        await deleteResourceById(resourceId);
         res.status(200).json({ message: `successfully deleted${resourceId}` });
     } catch (err) {
         console.log(err)

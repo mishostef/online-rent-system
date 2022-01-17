@@ -3,6 +3,7 @@ import { resourceType } from '../models/enums'
 import { promises as fs } from 'fs';
 import { IResource } from '../models/interfaces/IResource';
 import { Comment } from '../models/Comment';
+import * as mongoose from 'mongoose';
 
 async function createResource(imageName, body) {
     const resource = new Resource({
@@ -62,12 +63,20 @@ async function deleteResourceById(id: string) {
     try {
         await fs.unlink(path);
         console.log(`deleted file:${path}`);
+        console.log(resource);
+        console.log(resource.comments);
+        if (resource.comments.length > 0) {
+            const objIds = resource.comments.map(x => mongoose.Types.ObjectId(x));
+            console.log(objIds)
+            await Comment.remove({ _id: { $in: objIds } });
+        }
+
+        await Resource.findOneAndRemove({ _id: id });
+
     } catch (err) {
         console.log(err);
     }
-    const res = await Resource.findOneAndRemove({ _id: id });
-    console.log(res);
-    return res;
+
 }
 
 async function likeResource(resourceId, likes) {
@@ -77,10 +86,10 @@ async function likeResource(resourceId, likes) {
 }
 
 async function getResourceComments(resourceId) {
-        const resource = await Resource.findById(resourceId).populate('comments');
-        console.log(resource.comments)
-        return resource.comments.map(c => c.text);        
-    
+    const resource = await Resource.findById(resourceId).populate('comments');
+    console.log(resource.comments)
+    return resource.comments.map(c => c.text);
+
 }
 
 
@@ -91,7 +100,7 @@ export {
     getAllResources,
     getResourceById,
     editResource,
-    deleteResourceById,    
+    deleteResourceById,
     likeResource,
     getResourceComments
 }
