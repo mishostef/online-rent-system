@@ -17,7 +17,7 @@ import { IUser } from './models/IUser';
 import { userRole } from './enums/Role';
 import { emptyUser, getInfo } from './constants';
 import AllUsersAdmin from './components/AllUsersAdmin';
-import { getCookieJWTInfo } from './services/userservice';
+import { getCookieJWTInfo } from './services/userService';
 import NotFound from './components/NotFound';
 
 

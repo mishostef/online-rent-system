@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import TextField from '@material-ui/core/TextField';
 import { resourcesAddress } from '../constants'
 import { useNavigate, useParams } from "react-router";
-import { addComment, editComment } from "../services/userservice";
+import { addComment, editComment } from "../services/userService";
 
 
 const validationSchema = yup.object({

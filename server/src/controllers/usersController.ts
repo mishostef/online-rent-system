@@ -44,9 +44,10 @@ router.post('/delete', isUser(), isAdmin(), async (req, res, next) => {
     const ids = req.body.ids;
     console.log(ids);
     try {
-        const count = await deleteManyById(ids)
-        console.log(count);
-        res.status(200).json({ 'message': `successfully deleted ${count} items` })
+        const response = await deleteManyById(ids)
+        console.log(response);
+        console.log(`deleted number is... ${response.result.n}`);
+        res.status(200).json({ status: 200, 'message': ` ok:${response.result.ok == 1} successfully deleted ${response.result.n} items` })
     } catch (err) {
         next(JSON.stringify({ 'message': `${err.message}` }));
     }

@@ -1,7 +1,7 @@
 
 import axios, { AxiosResponse } from "axios";
 import { loginAddress, registerAddress, usersAddress } from "../constants";
-import { options } from "./userservice";
+import { options } from "./userService";
 const token = (sessionStorage.getItem('SESSION_TOKEN'))
 //if (token) axios.defaults.headers.common['authorization'] = token;
 

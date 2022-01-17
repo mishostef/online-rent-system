@@ -89,8 +89,7 @@ async function deleteUserById(id) {
 
 async function deleteManyById(ids: string[]) {
     const objIds = ids.map(i => mongoose.Types.ObjectId(i));
-    const deletedCount = await User.remove({ _id: { $in: objIds } });
-    return deletedCount;
+    return User.remove({ _id: { $in: objIds } });
 }
 
 export {

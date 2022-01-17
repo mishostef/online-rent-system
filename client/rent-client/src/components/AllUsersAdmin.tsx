@@ -5,7 +5,7 @@ import { usersAddress } from "../constants";
 import { ITokenInfo } from "../models/ITokenInfo";
 import { DataGrid, GridCallbackDetails, GridCellEditCommitParams, GridRowParams, GridSelectionModel } from '@mui/x-data-grid';
 import React from "react";
-import { deleteMany, getAllUsers } from "../services/userservice";
+import { deleteMany, getAllUsers } from "../services/userService";
 import { IUser } from "../models/IUser";
 import { ReactElement } from "react-markdown/lib/react-markdown";
 import { Delete, Edit } from "@material-ui/icons";
@@ -70,7 +70,6 @@ function AllUsersAdmin(): ReactElement {
     }));
     const classes = useStyles();
 
-
     function handleChange(ids: GridSelectionModel) {
         console.log(ids);
         console.log(`in handler:${ids.join(' ')}`)
@@ -83,10 +82,11 @@ function AllUsersAdmin(): ReactElement {
         const removedSelected = data.filter(d => !selectedIds.includes(d.id));
         try {
             const response = await deleteMany(selectedIds);
-            console.log(response.data);
+            const message = response.data.message;
             setData(removedSelected);
+            alert(message);
         } catch (err: any) {
-            alert(err.response.data);
+            alert(JSON.stringify(err.response.data));
         }
     }
 

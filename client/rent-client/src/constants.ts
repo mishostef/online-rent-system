@@ -1,7 +1,7 @@
 import { userRole } from "./enums/Role";
 import { IUser } from "./models/IUser";
 import jwt_decode from 'jwt-decode';
-import { getCookieJWTInfo } from "./services/userservice";
+import { getCookieJWTInfo } from "./services/userService";
 
 export const PORT = '3030';
 //ipconfig

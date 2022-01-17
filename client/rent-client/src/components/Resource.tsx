@@ -13,7 +13,7 @@ import { Comment, Delete, Edit, HouseRounded } from "@material-ui/icons";
 import { IResourceIdentifiable } from "../models/IResourceIdentifiable";
 import { resource as res } from '../enums/resource';
 import ReactMarkdown from "react-markdown";
-import { bookResource, getCookieJWTInfo, deleteResource, likeResource, getAllCommentsByResourceId } from "../services/userservice";
+import { bookResource, getCookieJWTInfo, deleteResource, likeResource, getAllCommentsByResourceId } from "../services/userService";
 import { staticAddress } from "../constants";
 import { useNavigate } from "react-router-dom";
 import { getDateString } from "../utils/utils";

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { ReactElement } from "react-markdown/lib/react-markdown";
 import { useParams } from "react-router-dom";
 import AddComment from "./AddComment";
-import { getCommentById } from "../services/userservice";
+import { getCommentById } from "../services/userService";
 
 export default function EditComment(): ReactElement {
     const { commentId } = useParams();

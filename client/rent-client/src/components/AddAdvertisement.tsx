@@ -14,7 +14,7 @@ import { ITokenInfo } from "../models/ITokenInfo";
 import { getDateString } from "../utils/utils";
 import { useParams } from "react-router-dom";
 import { resourcesAddress, staticAddress } from "../constants";
-import { getCookieJWTInfo } from "../services/userservice";
+import { getCookieJWTInfo } from "../services/userService";
 
 
 
