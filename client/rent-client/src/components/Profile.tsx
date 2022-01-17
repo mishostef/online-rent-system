@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import { IUser } from '../models/IUser';
 import { editUser } from '../services/authService';
 import { baseAddress, editInitialValues } from '../constants';
-import { userRole } from '../enums/Role';
+import { userRole } from '../models/enums/Role';
 import socketIOClient from 'socket.io-client';
 import instantiate from '../services/socketService';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';

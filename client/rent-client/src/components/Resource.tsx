@@ -11,7 +11,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Comment, Delete, Edit, HouseRounded } from "@material-ui/icons";
 import { IResourceIdentifiable } from "../models/IResourceIdentifiable";
-import { resource as res } from '../enums/resource';
+import { resource as res } from '../models/enums/resource';
 import ReactMarkdown from "react-markdown";
 import { bookResource, getCookieJWTInfo, deleteResource, likeResource, getAllCommentsByResourceId } from "../services/userService";
 import { staticAddress } from "../constants";

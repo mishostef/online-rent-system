@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import TextField from '@material-ui/core/TextField';
 import { initialValues } from '../constants'
-import { userRole } from "../enums/Role";
+import { userRole } from "../models/enums/Role";
 import { register } from "../services/authService";
 import { useNavigate } from "react-router-dom";
 

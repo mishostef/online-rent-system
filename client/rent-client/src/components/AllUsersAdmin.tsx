@@ -1,12 +1,8 @@
-import { Button, Grid, makeStyles } from "@material-ui/core";
-import axios from "axios";
+import { Button, makeStyles } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import { usersAddress } from "../constants";
 import { ITokenInfo } from "../models/ITokenInfo";
-import { DataGrid, GridCallbackDetails, GridCellEditCommitParams, GridRowParams, GridSelectionModel } from '@mui/x-data-grid';
-import React from "react";
+import { DataGrid, GridCellEditCommitParams,  GridSelectionModel } from '@mui/x-data-grid';
 import { deleteMany, getAllUsers } from "../services/userService";
-import { IUser } from "../models/IUser";
 import { ReactElement } from "react-markdown/lib/react-markdown";
 import { Delete, Edit } from "@material-ui/icons";
 

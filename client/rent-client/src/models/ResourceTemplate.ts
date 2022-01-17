@@ -1,4 +1,4 @@
-import { resource } from "../enums/resource";
+import { resource } from "./enums/resource";
 import { IResource } from "./IResource";
 
 

@@ -1,5 +1,5 @@
 import Login from './components/Login';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Register from './components/Register';
 import Profile from './components/Profile';
@@ -7,31 +7,26 @@ import AddAdvertisement from './components/AddAdvertisement';
 import PrimarySearchAppBar from './components/Navigation';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { ResourceList } from './components/ResourceList';
-import { resource as res } from './enums/resource'
+import { resource as res } from './models/enums/resource'
 import { ResourceTemplate } from './models/ResourceTemplate';
 import { EditAdvertisement } from './components/EditAdvertisement';
-import * as authService from './services/authService';
 import AddComment from './components/AddComment';
 import EditComment from './components/EditComment';
 import { IUser } from './models/IUser';
-import { userRole } from './enums/Role';
+import { userRole } from './models/enums/Role';
 import { emptyUser, getInfo } from './constants';
 import AllUsersAdmin from './components/AllUsersAdmin';
 import { getCookieJWTInfo } from './services/userService';
 import NotFound from './components/NotFound';
 
 
-
-
 function App() {
-
 
   const location = useLocation();
 
   const [user, setUser] = useState<IUser>(emptyUser)
-  ///const [isLogged, setIsLogged] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     console.log('Location changed');
     const newUser = getInfo(emptyUser);
     setUser(newUser);
@@ -44,7 +39,7 @@ function App() {
 
   function adminAuth(): boolean {
     const user = getCookieJWTInfo();
-    if (user) return user.role == userRole.Admin;
+    if (user) return user.role === userRole.Admin;
     return false;
   }
 

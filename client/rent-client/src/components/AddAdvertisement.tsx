@@ -1,22 +1,17 @@
 
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextareaAutosize, TextField } from "@material-ui/core";
 
-import { Field, FormikProvider, useFormik, validateYupSchema } from 'formik';
+import { Field, FormikProvider, useFormik } from 'formik';
 import * as yup from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useState } from "react";
+import React from "react";
 import MaterialField from "./MaterialField";
 import { ResourceTemplate } from "../models/ResourceTemplate";
-import { resource } from "../enums/resource";
+import { resource } from "../models/enums/resource";
 import axios from "axios";
-import jwt_decode from "jwt-decode";
-import { ITokenInfo } from "../models/ITokenInfo";
 import { getDateString } from "../utils/utils";
-import { useParams } from "react-router-dom";
 import { resourcesAddress, staticAddress } from "../constants";
 import { getCookieJWTInfo } from "../services/userService";
-
-
 
 
 const useStyles = makeStyles(theme => ({
@@ -68,8 +63,6 @@ const AddAdvertisement: React.FC<{ props: ResourceTemplate, method: string, reso
         validateOnChange: false,
         onSubmit: async (values) => {
             console.log(values);
-
-            //const tokenInfo = jwt_decode(document.cookie);
             const user = getCookieJWTInfo();
             const ownerId = user!._id!;//(tokenInfo as ITokenInfo)._id;
             const formData = new FormData();
@@ -175,9 +168,6 @@ const AddAdvertisement: React.FC<{ props: ResourceTemplate, method: string, reso
         </FormikProvider>
     )
 }
-
-
-
 
 export default AddAdvertisement
 

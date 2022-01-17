@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { ReactElement } from "react-markdown/lib/react-markdown";
 import { useParams } from "react-router-dom";
 import { resourcesAddress } from "../constants";
-import { resource } from "../enums/resource";
+import { resource } from "../models/enums/resource";
 import { IResource } from "../models/IResource";
 import { ResourceTemplate } from "../models/ResourceTemplate";
 import AddAdvertisement from "./AddAdvertisement";

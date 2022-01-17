@@ -1,4 +1,4 @@
-import { userRole } from "./enums/Role";
+import { userRole } from "./models/enums/Role";
 import { IUser } from "./models/IUser";
 import jwt_decode from 'jwt-decode';
 import { getCookieJWTInfo } from "./services/userService";
