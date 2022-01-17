@@ -1,5 +1,4 @@
 import { Resource } from '../models/Resource';
-import { resourceType } from '../models/enums'
 import { promises as fs } from 'fs';
 import { IResource } from '../models/interfaces/IResource';
 import { Comment } from '../models/Comment';
@@ -33,15 +32,7 @@ async function editResource(id, body) {
     } catch (err) {
         console.log(err);
     }
-
-
 }
-
-/*async function getUserByEmail(email: string) {
-    const pattern = new RegExp(`^${email}$`, 'i');
-    const user = await User.findOne({ email: { $regex: pattern } });
-    return user;
-}*/
 
 async function getAllResources() {
     const allResources = await Resource.find({}).lean();
@@ -63,20 +54,14 @@ async function deleteResourceById(id: string) {
     try {
         await fs.unlink(path);
         console.log(`deleted file:${path}`);
-        console.log(resource);
-        console.log(resource.comments);
         if (resource.comments.length > 0) {
             const objIds = resource.comments.map(x => mongoose.Types.ObjectId(x));
-            console.log(objIds)
             await Comment.remove({ _id: { $in: objIds } });
         }
-
         await Resource.findOneAndRemove({ _id: id });
-
     } catch (err) {
         console.log(err);
     }
-
 }
 
 async function likeResource(resourceId, likes) {
@@ -89,11 +74,7 @@ async function getResourceComments(resourceId) {
     const resource = await Resource.findById(resourceId).populate('comments');
     console.log(resource.comments)
     return resource.comments.map(c => c.text);
-
 }
-
-
-
 
 export {
     createResource,

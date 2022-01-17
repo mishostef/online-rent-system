@@ -11,9 +11,6 @@ export const expressConfig = (app: express.Application) => {
     app.use(cookieParser());
     app.use(authMiddleware());
 
-
-
-
     var networkInterfaces = os.networkInterfaces();
 
     const myIP = (networkInterfaces['Local Area Connection'][1]['address']);
@@ -36,7 +33,5 @@ export const expressConfig = (app: express.Application) => {
         }
         next();
     });
-
-
 };
 
