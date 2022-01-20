@@ -192,7 +192,6 @@ const Resource: React.FC<{ resource: IResourceIdentifiable, DeleteById: Function
         </Card>
         <MyPopover open={commentsOpen} anchorEl={buttonRef.current} items={allComments} handleClose={toggleComments} />
     </>
-
     )
 
 }

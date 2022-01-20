@@ -1,30 +1,33 @@
 import { TextField } from '@material-ui/core';
 import { connect, Field, FieldProps } from 'formik';
-import React from 'react';
+import React, { ChangeEventHandler } from 'react';
 
 interface MaterialFiledProps {
     name: string;
     label: string
-    rowsMax?: number; 
+    type: string;
+    val: string;
+    classes?: string;
+    handleChange?: ChangeEventHandler<Element>;
 }
 
-function MaterialFiled({ name, label, rowsMax = 1}: MaterialFiledProps) {
+function MaterialDate({ name, label, type, val, handleChange, classes }: MaterialFiledProps) {
     return (
         <Field name={name}>
             {({
                 field, // { name, value, onChange, onBlur }
                 form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
                 meta,
-            }:  FieldProps) => (
-                <TextField                    
+            }: FieldProps) => (
+                <TextField
                     id={name}
-                    helperText={meta.touched ? meta.error : ""}
-                    error={meta.touched && Boolean(meta.error)}
                     label={label}
-                    fullWidth
-                    multiline={rowsMax > 1}
-                    rowsMax={rowsMax}
-                    {...field}
+                    name={name}
+                    type={type}
+                    value={val}
+                    onChange={handleChange}
+                    className={classes}
+
                 />
             )
             }
@@ -32,4 +35,4 @@ function MaterialFiled({ name, label, rowsMax = 1}: MaterialFiledProps) {
     );
 };
 
-export default connect<MaterialFiledProps>(MaterialFiled);
+export default connect<MaterialFiledProps>(MaterialDate);
