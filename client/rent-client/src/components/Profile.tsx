@@ -8,7 +8,6 @@ import { editUser } from '../services/authService';
 import { baseAddress, editInitialValues } from '../constants';
 import { userRole } from '../models/enums/Role';
 import socketIOClient from 'socket.io-client';
-import instantiate from '../services/socketService';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { Inbox } from '@material-ui/icons';
 
@@ -50,7 +49,6 @@ const Profile: React.FC<{ user: IUser }> = ({ user }) => {
     useEffect(() => {
 
         socket.emit('newuser', user.email);
-
         socket.on('msg', (message: string) => {
             appendMessage(`${message}`)
         })
@@ -74,8 +72,7 @@ const Profile: React.FC<{ user: IUser }> = ({ user }) => {
 
 
     function appendMessage(message: string) {
-        //if (!message.startsWith(user.email))
-        setMessages(oldArr => [...oldArr, message]);
+       setMessages(oldArr => [...oldArr, message]);
     }
 
     function handleMessage(e: React.FormEvent<HTMLFormElement>) {

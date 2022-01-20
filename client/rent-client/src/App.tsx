@@ -39,12 +39,11 @@ function App() {
 
   function adminAuth(): boolean {
     const user = getCookieJWTInfo();
-    if (user) return user.role === userRole.Admin;
-    return false;
+    if (!user) return false;
+    return Number(user.role) === userRole.Admin;
   }
 
   function RequireAuth({ children }: { children: JSX.Element }) {
-
     let auth = useAuth();
     let location = useLocation();
     if (!auth) {
@@ -84,9 +83,6 @@ function App() {
     </div >
   );
 }
-
-
-
 
 export default App;
 
