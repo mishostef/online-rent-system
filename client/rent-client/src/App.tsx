@@ -1,23 +1,23 @@
-import Login from './components/Login';
+import Login from './components/user/auth/Login';
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import Register from './components/Register';
-import Profile from './components/Profile';
-import AddAdvertisement from './components/AddAdvertisement';
-import PrimarySearchAppBar from './components/Navigation';
+import Register from './components/user/auth/Register';
+import Profile from './components/user/Profile';
+import AddAdvertisement from './components/resource/AddAdvertisement';
+import PrimarySearchAppBar from './components/core/Navigation';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import { ResourceList } from './components/ResourceList';
+import { ResourceList } from './components/resource/ResourceList';
 import { resource as res } from './models/enums/resource'
 import { ResourceTemplate } from './models/ResourceTemplate';
-import { EditAdvertisement } from './components/EditAdvertisement';
-import AddComment from './components/AddComment';
-import EditComment from './components/EditComment';
+import { EditAdvertisement } from './components/resource/EditAdvertisement';
+import AddComment from './components/comment/AddComment';
+import EditComment from './components/comment/EditComment';
 import { IUser } from './models/IUser';
 import { userRole } from './models/enums/Role';
 import { emptyUser, getInfo } from './constants';
-import AllUsersAdmin from './components/AllUsersAdmin';
+import AllUsersAdmin from './components/user/AllUsersAdmin';
 import { getCookieJWTInfo } from './services/userService';
-import NotFound from './components/NotFound';
+import NotFound from './components/core/NotFound';
 
 
 function App() {

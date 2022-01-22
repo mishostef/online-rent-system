@@ -16,17 +16,18 @@ export const expressConfig = (app: express.Application) => {
     const myIP = (networkInterfaces['Local Area Connection'][1]['address']);
     console.log(myIP);
     app.options(`http://${myIP.toString()}:3000`, cors());
+
     const corsOptions = {
         origin: [`http://${myIP.toString()}:3000`, `http://localhost:3000`],
-        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+        methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",//PATCH not working
         allowedHeaders: '*',
         optionsSuccessStatus: 200,// some legacy browsers (IE11, various SmartTVs) choke on 204
         credentials: true
     }
 
-    app.use(cors(corsOptions));
+    app.use(cors(corsOptions));    
 
-    app.use((req: Request, res: Response, next) => {
+    app.use((req: Request, res: Response, next) => {       
         console.log(">>>", req.method, req.url, `headers: ${JSON.stringify(req.headers['authorization'])}`);
         if (req['user']) {
             console.log(`known user`, req['user'].email);

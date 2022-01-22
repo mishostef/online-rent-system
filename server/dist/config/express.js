@@ -22,7 +22,7 @@ exports.expressConfig = (app) => {
         optionsSuccessStatus: 200,
         credentials: true
     };
-    app.use(cors(corsOptions));
+    
     app.use((req, res, next) => {
         console.log(">>>", req.method, req.url, `headers: ${JSON.stringify(req.headers['authorization'])}`);
         if (req['user']) {

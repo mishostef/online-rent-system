@@ -25,7 +25,6 @@ export class ResourceTemplate implements IResource {
         this.resourceType = resourceType;
         this.shortDescription = shortDescription;
         this.isMD = isMD;
-
     }
 
 }

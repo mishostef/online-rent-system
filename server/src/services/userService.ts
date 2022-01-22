@@ -92,6 +92,20 @@ async function deleteManyById(ids: string[]) {
     return User.remove({ _id: { $in: objIds } });
 }
 
+async function editUsers(newUsers: IUserIdentifiable[]) {
+    const objIds = newUsers.map(user => mongoose.Types.ObjectId(user._id));
+    const docs = await User.find({ _id: { $in: objIds } })
+    docs.forEach(doc => {
+            const newDoc = newUsers.find(x => x._id === doc._id.toString());
+            Object.keys(newDoc).forEach(key => {
+                doc[key] = newDoc[key];
+            })
+            doc.save();
+        });
+        
+}
+
+
 export {
     createUser,
     getUserByUserName,
@@ -101,5 +115,6 @@ export {
     bookResource,
     getAllUsers,
     deleteUserById,
-    deleteManyById
+    deleteManyById,
+    editUsers
 }

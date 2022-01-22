@@ -1,10 +1,8 @@
 import { Router } from "express";
-import { nextTick } from "process";
-import { async } from "rxjs";
 import { isAdmin, isUser } from "../middlewares/guards";
-import { IUser } from "../models/interfaces/IUser";
-import { deleteManyById, deleteUserById, getAllUsers, getUserById, updateUser } from "../services/userService";
-
+import { deleteManyById, deleteUserById, editUsers, getAllUsers, getUserById, updateUser } from "../services/userService";
+import * as cors from 'cors';
+import { IUserIdentifiable } from "../models/interfaces/IUserIdentifiable";
 
 const router = Router();
 
@@ -18,6 +16,17 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.put('/', cors(), async (req, res, next) => {
+    const newUsers = req.body.edited as IUserIdentifiable[];
+    console.log(newUsers);
+    try {
+        await editUsers(newUsers);
+        res.status(200).json({ message: `${newUsers.length} documents successfully updated` })
+    } catch (err) {
+        console.log(err);
+        next(JSON.stringify({ status: 500, message: err.message || Object.values(err.errors).map(el => el['message']).join('\n') }));
+    }
+})
 
 router.get('/:userId', async (req, res) => {
     const userId = req.params.userId;
@@ -63,5 +72,7 @@ router.put('/:userId', async (req, res) => {
         console.log(err);
     }
 })
+
+
 
 export { router }

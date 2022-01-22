@@ -3,6 +3,8 @@ import { commentsAddress, resourcesAddress, usersAddress } from "../constants";
 import jwt_decode from 'jwt-decode';
 import { IUser } from "../models/IUser";
 import axios from "axios";
+import { ITokenInfo } from "../models/ITokenInfo";
+import { IResource } from "../models/IResource";
 
 
 
@@ -19,9 +21,26 @@ function getCookieJWTInfo(): IUser | null {
 }
 
 ///ResourceService
+async function getResourceById(resourceId: string | undefined) {
+    const res = (await axios.get(`${resourcesAddress}/${resourceId}`)).data as IResource;
+    /* .then(data => {
+         console.log(data.data);
+         const ires = (data.data as IResource);
+         console.log(ires);
+         return ires;
+     })*/
+     return res;
+
+}
+
+
 async function bookResource(resourceId: string) {
     const user = getCookieJWTInfo();
     return axios.post(`${resourcesAddress}/${resourceId}`, { userId: user?._id }, options());
+}
+
+async function getResources() {
+    return axios(`${resourcesAddress}`);
 }
 
 async function deleteResource(resourceId: string) {
@@ -60,6 +79,10 @@ async function deleteMany(ids: string[]) {
     return axios.post(`${usersAddress}/delete`, { ids }, options());
 }
 
+async function editUsers(edited: ITokenInfo[]) {
+    return axios.put(`${usersAddress}`, { edited }, options())
+}
+
 export {
     getCookieJWTInfo,
     bookResource,
@@ -70,6 +93,9 @@ export {
     getAllUsers,
     deleteMany,
     addComment,
-    editComment
+    editComment,
+    editUsers,
+    getResources,
+    getResourceById
 }
 
