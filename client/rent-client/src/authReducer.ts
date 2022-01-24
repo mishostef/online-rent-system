@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { IUser } from "./models/IUser";
-import { login } from "./services/authService";
+import { login, register } from "./services/authService";
 import { getCookieJWTInfo } from "./services/userService"
-import History from "react-router-dom";
+import jwt_decode from 'jwt-decode';
 import { AppThunk } from "./store";
 const initialUser = getCookieJWTInfo();
 const token = sessionStorage.getItem('SESSION_TOKEN');
@@ -23,6 +23,7 @@ const auth = createSlice({
     name: 'auth',
     initialState,
     reducers: {
+
         loginSuccess(state, action: PayloadAction<AuthState>) {
             state.user = action.payload.user;
             state.token = action.payload.token;
@@ -43,10 +44,33 @@ export default auth.reducer
 
 export const submitLogin = (email: string, password: string): AppThunk => async (dispatch, getState) => {
     try {
-        const loggedUser = await login(email, password);
-        dispatch(loginSuccess(loggedUser));
-        // replace in history the Login with requested protected page ang go to it OR go to / if no requested page
-        //history.replace(requestedUrl ? requestedUrl : '/');
+        const resp = (await login(email, password))
+        const token = resp['SESSION_TOKEN'];
+        console.log(token);
+        const loggedUser = jwt_decode(token) as IUser
+        (loggedUser as any)['token'] = token;
+        console.log('loggedUser', loggedUser);
+        const st: AuthState = { token, user: loggedUser, error: undefined };
+
+        dispatch(loginSuccess(st));
+
+    } catch (err) {
+        dispatch(loginFailure(JSON.stringify(err)))
+    }
+}
+
+export const submitRegister = (values: any): AppThunk => async (dispatch, getState) => {
+    try {
+        const resp = (await register(values))
+        const token = resp['SESSION_TOKEN'];
+        console.log(token);
+        const loggedUser = jwt_decode(token) as IUser
+        (loggedUser as any)['token'] = token;
+        console.log('loggedUser', loggedUser);
+        const st: AuthState = { token, user: loggedUser, error: undefined };
+
+        dispatch(loginSuccess(st));
+
     } catch (err) {
         dispatch(loginFailure(JSON.stringify(err)))
     }

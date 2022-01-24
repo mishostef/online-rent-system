@@ -9,9 +9,11 @@ interface MaterialFiledProps {
     val: string;
     classes?: string;
     handleChange?: ChangeEventHandler<Element>;
+    placeholder?: string;
+    fullwidth?: boolean;
 }
 
-function MaterialDate({ name, label, type, val, handleChange, classes }: MaterialFiledProps) {
+function CustomField({ name, label, type, val, handleChange, classes, placeholder, fullwidth = false }: MaterialFiledProps) {
     return (
         <Field name={name}>
             {({
@@ -22,9 +24,11 @@ function MaterialDate({ name, label, type, val, handleChange, classes }: Materia
                 <TextField
                     id={name}
                     label={label}
+                    placeholder={placeholder}
                     name={name}
                     type={type}
                     value={val}
+                    fullWidth={fullwidth}
                     onChange={handleChange}
                     className={classes}
 
@@ -35,4 +39,4 @@ function MaterialDate({ name, label, type, val, handleChange, classes }: Materia
     );
 };
 
-export default connect<MaterialFiledProps>(MaterialDate);
+export default connect<MaterialFiledProps>(CustomField);

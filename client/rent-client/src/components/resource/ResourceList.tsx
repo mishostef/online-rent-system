@@ -2,7 +2,7 @@ import { ReactElement, useEffect, useState } from "react";
 import Resource from "./Resource";
 import { IResourceIdentifiable } from "../../models/IResourceIdentifiable";
 import './ResourceList.css';
-import { getResources } from "../../services/userService";
+import { getResources } from "../../services/resourceService";
 
 export function ResourceList(): ReactElement {
     const [data, setData] = useState<IResourceIdentifiable[]>([]);

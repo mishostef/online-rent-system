@@ -6,18 +6,19 @@ import {
     IconButton, Typography, Tooltip
 } from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { Comment, Delete, Edit, HouseRounded } from "@material-ui/icons";
+import { Comment, Delete, Edit, HouseRounded, Favorite, MoreVert } from "@material-ui/icons";
 import { IResourceIdentifiable } from "../../models/IResourceIdentifiable";
 import { resource as res } from '../../models/enums/resource';
 import ReactMarkdown from "react-markdown";
-import { bookResource, getCookieJWTInfo, deleteResource, likeResource, getAllCommentsByResourceId } from "../../services/userService";
+import { bookResource, likeResource, deleteResource } from "../../services/resourceService";
+import { getAllCommentsByResourceId } from '../../services/commentService';
 import { staticAddress } from "../../constants";
 import { useNavigate } from "react-router-dom";
 import { getDateString } from "../../utils/utils";
 import MyPopover from "../core/MyPopover";
+import { useSelector } from "react-redux";
+import { RootState } from "../../rootReducer";
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -54,10 +55,15 @@ const Resource: React.FC<{ resource: IResourceIdentifiable, DeleteById: Function
     const [expanded, setExpanded] = useState(false);
     const [commentsOpen, setCommentsOpen] = useState(false);
     const [allComments, setAllComments] = useState([]);
+    const [likes, setLikes] = useState(resource.likes || 0);
     let buttonRef = React.useRef(null);
     const imageUrl = `${staticAddress}/${resource.imageName}`;
     const resourceId = resource._id;
     const navigate = useNavigate();
+
+    const loggedUser = useSelector((state: RootState) => {
+        return state.auth.user;
+    });
 
 
 
@@ -69,7 +75,7 @@ const Resource: React.FC<{ resource: IResourceIdentifiable, DeleteById: Function
     async function handleReservation() {
         if (window.confirm(` Dou you want to book ${resourceId}`)) {
             try {
-                const response = await bookResource(resourceId);
+                const response = await bookResource(resourceId, loggedUser!);
                 console.log(response.data.message);
                 alert(response.data.message);
             } catch (err) {
@@ -109,8 +115,9 @@ const Resource: React.FC<{ resource: IResourceIdentifiable, DeleteById: Function
 
     async function handleLikes() {
         try {
-            const response = await likeResource(resourceId);
-            console.log(response.data);
+            const response = await likeResource(resourceId, loggedUser!);
+            alert(response.data.message);
+            setLikes(likes + 1);
         } catch (err) {
             alert((err as any).response?.data.message);
         }
@@ -128,7 +135,7 @@ const Resource: React.FC<{ resource: IResourceIdentifiable, DeleteById: Function
                 }
                 action={
                     <IconButton aria-label="settings" onClick={showComments}>
-                        <MoreVertIcon />
+                        <MoreVert />
                     </IconButton>
                 }
                 title={resource.isMD ? (<ReactMarkdown>{resource.shortDescription}</ReactMarkdown>) : (<>{resource.shortDescription}</>)}
@@ -147,10 +154,11 @@ const Resource: React.FC<{ resource: IResourceIdentifiable, DeleteById: Function
             <CardActions disableSpacing>
                 <Tooltip title="Like">
                     <IconButton aria-label="like" onClick={handleLikes}>
-                        <FavoriteIcon />
+                        <Favorite />
+                        <Typography variant="body2" color="textSecondary">{likes}</Typography>
                     </IconButton>
                 </Tooltip>
-                {getCookieJWTInfo() && (<Tooltip title="Book">
+                {loggedUser && (<Tooltip title="Book">
                     <IconButton aria-label="book" onClick={handleReservation}>
                         <HouseRounded />
                     </IconButton></Tooltip>)}
@@ -195,7 +203,5 @@ const Resource: React.FC<{ resource: IResourceIdentifiable, DeleteById: Function
     )
 
 }
-
-
 
 export default Resource;

@@ -5,7 +5,8 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import TextField from '@material-ui/core/TextField';
 import { useNavigate, useLocation } from "react-router";
-import { login } from "../../../services/authService";
+import { useDispatch } from "react-redux";
+import { submitLogin } from "../../../authReducer";
 
 
 
@@ -24,10 +25,9 @@ const validationSchema = yup.object({
 
 export default function Login(): ReactElement {
     let navigate = useNavigate();
-
     let location = useLocation();
     let from = ((location.state as any)?.from as any)?.pathname || "/";
-
+    const dispatch = useDispatch();
 
     const formik = useFormik({
         initialValues: {
@@ -41,11 +41,11 @@ export default function Login(): ReactElement {
             console.log(values.email);
 
             try {
-                const res = await login(values.email, values.password);
-                console.log(res);
-                //  console.log(res.data);
-                sessionStorage.setItem('SESSION_TOKEN', res['SESSION_TOKEN']);
-                // axios.defaults.headers.common['Authorization'] = res.data['SESSION_TOKEN']
+                // const res = await login(values.email, values.password);
+                dispatch(submitLogin(
+                    values.email,
+                    values.password
+                ));
                 navigate(from, { replace: true });
             } catch (err: any) {
                 alert(err.response.data.message);

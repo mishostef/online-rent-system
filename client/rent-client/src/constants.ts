@@ -1,6 +1,5 @@
 import { userRole } from "./models/enums/Role";
 import { IUser } from "./models/IUser";
-import jwt_decode from 'jwt-decode';
 import { getCookieJWTInfo } from "./services/userService";
 
 export const PORT = '3030';
@@ -22,10 +21,8 @@ export const initialValues: IUser = {
     password: 'foobar',
     role: userRole.Guest
 }
-/*
 
-*/
-export const editInitialValues = (): IUser => {
+/*export const editInitialValues = (): IUser => {
     const user = getCookieJWTInfo();
     const initialValues: IUser = {
         email: user?.email || '',
@@ -36,7 +33,7 @@ export const editInitialValues = (): IUser => {
     }
     console.log(user)
     return initialValues;
-}
+}*/
 
 export const emptyUser: IUser = {
     email: '',

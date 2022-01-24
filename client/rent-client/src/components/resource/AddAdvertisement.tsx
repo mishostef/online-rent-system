@@ -1,18 +1,17 @@
 
-import { Button, Grid, Radio, RadioGroup, TextField } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 import { Field, FormikProvider, useFormik } from 'formik';
 import * as yup from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
-import React, { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 import MaterialField from "../core/MaterialField";
 import { ResourceTemplate } from "../../models/ResourceTemplate";
 import { resource } from "../../models/enums/resource";
 import { getDateString, sendData } from "../../utils/utils";
 import { resourcesAddress, staticAddress } from "../../constants";
-import { getCookieJWTInfo } from "../../services/userService";
-import MaterialDate from "../core/MaterialDate";
+import CustomField from "../core/CustomField";
 import MaterialRadio from "../core/MaterialRadio";
-import { Navigate } from "react-router-dom";
+import { IUser } from "../../models/IUser";
 
 
 const useStyles = makeStyles(theme => ({
@@ -43,7 +42,7 @@ const validationSchema = yup.object({
 
 
 
-const AddAdvertisement: React.FC<{ props: ResourceTemplate, method: string, resourceId?: string }> = ({ props, method, resourceId }): JSX.Element => {
+const AddAdvertisement: React.FC<{ props: ResourceTemplate, method: string, resourceId?: string, user?: IUser }> = ({ props, method, resourceId, user }): JSX.Element => {
 
     const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
 
@@ -65,7 +64,6 @@ const AddAdvertisement: React.FC<{ props: ResourceTemplate, method: string, reso
         validateOnChange: false,
         onSubmit: async (values) => {
             console.log(values);
-            const user = getCookieJWTInfo();
             const ownerId = user!._id!;
             const formData = new FormData();
             formData.append("selectedFile", selectedFile!);
@@ -138,7 +136,7 @@ const AddAdvertisement: React.FC<{ props: ResourceTemplate, method: string, reso
                             </label>
                         </Grid>
                         <Grid item xs={3}>
-                            <MaterialDate label="From: " name="date" type="date" val={getDateString(formik.values.date)} handleChange={formik.handleChange} classes={classes.chkbox} />
+                            <CustomField label="From: " name="date" type="date" val={getDateString(formik.values.date)} handleChange={formik.handleChange} classes={classes.chkbox} />
                         </Grid>
                         <Grid item xs={2}>
                             <MaterialRadio name="resourceType" label="resource type" val={restype} handleChange={(e) => handleRadio(e)} />

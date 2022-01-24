@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { IUser } from '../../models/IUser';
 import { editUser } from '../../services/authService';
-import { baseAddress, editInitialValues } from '../../constants';
+import { baseAddress } from '../../constants';
 import { userRole } from '../../models/enums/Role';
 import socketIOClient from 'socket.io-client';
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
@@ -30,8 +30,12 @@ const validationSchema = yup.object({
 
 
 const Profile: React.FC<{ user: IUser }> = ({ user }) => {
+    const initial = {
+        ...user,
+        password: '***'
+    }
     const formik = useFormik({
-        initialValues: editInitialValues(),
+        initialValues: initial as IUser,
         validationSchema: validationSchema,
         onSubmit: async (values, { resetForm }) => {
             alert(JSON.stringify(values, null, 2));
@@ -72,7 +76,7 @@ const Profile: React.FC<{ user: IUser }> = ({ user }) => {
 
 
     function appendMessage(message: string) {
-       setMessages(oldArr => [...oldArr, message]);
+        setMessages(oldArr => [...oldArr, message]);
     }
 
     function handleMessage(e: React.FormEvent<HTMLFormElement>) {

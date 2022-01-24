@@ -7,38 +7,41 @@ import AddAdvertisement from './components/resource/AddAdvertisement';
 import PrimarySearchAppBar from './components/core/Navigation';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { ResourceList } from './components/resource/ResourceList';
-import { resource as res } from './models/enums/resource'
 import { ResourceTemplate } from './models/ResourceTemplate';
-import { EditAdvertisement } from './components/resource/EditAdvertisement';
+import EditAdvertisement from './components/resource/EditAdvertisement';
 import AddComment from './components/comment/AddComment';
 import EditComment from './components/comment/EditComment';
 import { IUser } from './models/IUser';
 import { userRole } from './models/enums/Role';
-import { emptyUser, getInfo } from './constants';
+import { emptyUser } from './constants';
 import AllUsersAdmin from './components/user/AllUsersAdmin';
-import { getCookieJWTInfo } from './services/userService';
 import NotFound from './components/core/NotFound';
+import { RootState } from './rootReducer';
+import { useSelector } from 'react-redux';
 
 
 function App() {
 
   const location = useLocation();
+  const [user, setUser] = useState<IUser>(emptyUser);
 
-  const [user, setUser] = useState<IUser>(emptyUser)
+  const loggedUser = useSelector((state: RootState) => {
+    return state.auth.user;
+  });
 
   useEffect(() => {
     console.log('Location changed');
-    const newUser = getInfo(emptyUser);
+    const newUser: IUser = loggedUser == null ? emptyUser : loggedUser;//getInfo(emptyUser);
     setUser(newUser);
   }, [location]);
 
 
   function useAuth() {
-    return sessionStorage['SESSION_TOKEN'];
+    return loggedUser !== null;
   }
 
   function adminAuth(): boolean {
-    const user = getCookieJWTInfo();
+    const user = { ...loggedUser }
     if (!user) return false;
     return Number(user.role) === userRole.Admin;
   }
@@ -73,8 +76,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<RequireAuth><Profile user={user} /></RequireAuth>} />
-        <Route path="/edit-advertisement/:resourceId" element={<RequireAuth><EditAdvertisement /></RequireAuth>} />
-        <Route path="/add-advertisement" element={<RequireAuth>< AddAdvertisement props={resource} method='post' /></RequireAuth>} />
+        <Route path="/edit-advertisement/:resourceId" element={<RequireAuth><EditAdvertisement user={user} /></RequireAuth>} />
+        <Route path="/add-advertisement" element={<RequireAuth>< AddAdvertisement props={resource} method='post' user={user} /></RequireAuth>} />
         <Route path="/add-comment/:resourceId" element={<RequireAuth><AddComment initialV='' /></RequireAuth>} />
         <Route path="/edit-comment/:commentId" element={<RequireAuth><EditComment /></RequireAuth>} />
         <Route path="/all-users/" element={<RequireAdmin><AllUsersAdmin /></RequireAdmin>} />

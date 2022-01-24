@@ -1,11 +1,12 @@
 import { Button } from "@material-ui/core";
-import { useFormik } from 'formik';
+import { FormikProvider, useFormik } from 'formik';
 import * as yup from 'yup';
-import TextField from '@material-ui/core/TextField';
 import { initialValues } from '../../../constants'
 import { userRole } from "../../../models/enums/Role";
-import { register } from "../../../services/authService";
 import { useNavigate } from "react-router-dom";
+import { submitRegister } from "../../../authReducer";
+import { useDispatch } from "react-redux";
+import CustomField from "../../core/CustomField";
 
 
 const validationSchema = yup.object({
@@ -33,6 +34,8 @@ const validationSchema = yup.object({
 const Register: React.FC<{}> = () => {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const formik = useFormik({
         initialValues: initialValues,
         validationSchema: validationSchema,
@@ -40,11 +43,11 @@ const Register: React.FC<{}> = () => {
             alert(JSON.stringify(values, null, 2));
             console.log(values);
             try {
-                const res = await register(values);
-                console.log(res.data);
-                sessionStorage.setItem('SESSION_TOKEN', res['SESSION_TOKEN']);
+                dispatch(submitRegister(
+                    values
+                ));
                 navigate('/');
-            } catch (err: any) {              
+            } catch (err: any) {
                 alert(err.response.data);
             }
         },
@@ -53,85 +56,53 @@ const Register: React.FC<{}> = () => {
 
     return (
         <div>
-            <form onSubmit={formik.handleSubmit}>
-                <TextField
-                    fullWidth
-                    id="firstName"
-                    name="firstName"
-                    label="firstName"
-                    value={formik.values.firstName}
-                    onChange={formik.handleChange}
-                    error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-                    helperText={formik.touched.firstName && formik.errors.firstName}
-                />
+            <FormikProvider value={formik}>
+                <form onSubmit={formik.handleSubmit}>
+                    <CustomField name="firstName" label="firstName" type="text" val={formik.values.firstName}
+                        handleChange={formik.handleChange} placeholder="pesho" fullwidth={true} />
 
-                <TextField
-                    fullWidth
-                    id="lastName"
-                    name="lastName"
-                    label="lastName"
-                    value={formik.values.lastName}
-                    onChange={formik.handleChange}
-                    error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-                    helperText={formik.touched.lastName && formik.errors.lastName}
-                />
+                    <CustomField name="lastName" label="lastName" type="text" val={formik.values.lastName}
+                        handleChange={formik.handleChange} placeholder="petrov" fullwidth={true} />
 
-                <TextField
-                    fullWidth
-                    id="email"
-                    name="email"
-                    label="Email"
-                    value={formik.values.email}
-                    onChange={formik.handleChange}
-                    error={formik.touched.email && Boolean(formik.errors.email)}
-                    helperText={formik.touched.email && formik.errors.email}
-                />
-                <TextField
-                    fullWidth
-                    id="password"
-                    name="password"
-                    label="Password"
-                    type="password"
-                    value={formik.values.password}
-                    onChange={formik.handleChange}
-                    error={formik.touched.password && Boolean(formik.errors.password)}
-                    helperText={formik.touched.password && formik.errors.password}
-                />
-                <div id="my-radio-group">userRole</div>
+                    <CustomField name="email" label="Email" type="email" val={formik.values.email}
+                        handleChange={formik.handleChange} placeholder={initialValues.email} fullwidth={true} />
 
+                    <CustomField name="password" label="Password" type="password" val={formik.values.password!}
+                        handleChange={formik.handleChange} placeholder={initialValues.password} fullwidth={true} />
+                    <div id="my-radio-group">userRole</div>
 
-                <div className="form-control">
-                    <input
-                        type="radio"
-                        value="Owner"
-                        name="userRole"
-                        checked={+formik.values.role === userRole.Owner}
-                        onChange={formik.handleChange}
-                    />
-                    <label>Owner</label>
-                </div>
+                    <div className="form-control">
+                        <input
+                            type="radio"
+                            value="Owner"
+                            name="userRole"
+                            checked={+formik.values.role === userRole.Owner}
+                            onChange={formik.handleChange}
+                        />
+                        <label>Owner</label>
+                    </div>
 
-                <div className="form-control">
-                    <input
-                        type="radio"
-                        value="Guest"
-                        name="userRole"
-                        checked={+formik.values.role === userRole.Guest}
-                        onChange={formik.handleChange}
-                    />
-                    <label>Guest</label>
-                </div>
-                <Button color="primary" disabled={!(formik.isValid && formik.dirty)} variant="contained" fullWidth type="submit">
-                    Submit
-                </Button>
-                <Button color="secondary"
-                    className="outline"
-                    onClick={() => formik.resetForm()}
-                >
-                    Reset
-                </Button>
-            </form>
-
+                    <div className="form-control">
+                        <input
+                            type="radio"
+                            value="Guest"
+                            name="userRole"
+                            checked={+formik.values.role === userRole.Guest}
+                            onChange={formik.handleChange}
+                        />
+                        <label>Guest</label>
+                    </div>
+                    <Button color="primary" disabled={!(formik.isValid && formik.dirty)} variant="contained" fullWidth type="submit">
+                        Submit
+                    </Button>
+                    <Button color="secondary"
+                        className="outline"
+                        onClick={() => formik.resetForm()}
+                    >
+                        Reset
+                    </Button>
+                </form>
+            </FormikProvider>
         </div>
     )
 }

@@ -92,14 +92,16 @@ router.post('/:resourceId', async (req, res) => {
 })
 
 
-router.post(`/:resourceId/likes`, async (req, res) => {
+router.post(`/:resourceId/likes`, async (req, res, next) => {
     const resourceId = req.params.resourceId;
     const likes = req.body.likes;
     console.log(`resourceId=${resourceId},likes=${likes}`);
     try {
         await likeResource(resourceId, likes);
+        res.status(200).json({ message: `successfully liked${resourceId}` });
     } catch (err) {
         console.log(err);
+        next(err);
     }
 });
 

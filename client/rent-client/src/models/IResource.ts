@@ -9,4 +9,5 @@ export interface IResource {
   imageName: string,
   resourceType: resource,
   isMD:boolean,
+  likes?:number
 }
