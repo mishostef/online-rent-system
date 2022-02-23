@@ -18,23 +18,39 @@ import AllUsersAdmin from './components/user/AllUsersAdmin';
 import NotFound from './components/core/NotFound';
 import { RootState } from './rootReducer';
 import { useSelector } from 'react-redux';
+import store from './store';
 
 
 function App() {
 
   const location = useLocation();
-  const [user, setUser] = useState<IUser>(emptyUser);
+  const [user, setUser] = useState<IUser>(store.getState().auth.user||emptyUser)//(emptyUser);
 
   const loggedUser = useSelector((state: RootState) => {
     return state.auth.user;
   });
 
-  useEffect(() => {
-    console.log('Location changed');
-    const newUser: IUser = loggedUser == null ? emptyUser : loggedUser;//getInfo(emptyUser);
-    setUser(newUser);
-  }, [location]);
+  function handleChange() {
+    let previousValue = loggedUser
+    const currentValue = (store.getState()).auth.user
 
+    if (previousValue !== currentValue) {
+      previousValue = currentValue
+      setUser(currentValue!==null?currentValue:emptyUser);
+    }
+  }
+
+  useEffect(() => {
+    store.subscribe(handleChange);
+  }, []);
+
+
+  /* useEffect(() => {
+     console.log('Location changed');
+     const newUser: IUser = loggedUser == null ? emptyUser : loggedUser;//getInfo(emptyUser);
+     setUser(newUser);
+   }, [location]);
+ */
 
   function useAuth() {
     return loggedUser !== null;

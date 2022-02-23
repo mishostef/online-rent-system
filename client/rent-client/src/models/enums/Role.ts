@@ -3,3 +3,8 @@ export enum userRole {
     Guest,
     Admin
 }
+
+export enum userRoleNarrow{
+    Owner,
+    Guest
+}

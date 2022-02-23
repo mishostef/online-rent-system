@@ -13,6 +13,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import './Navigation.css';
 import { IUser } from '../../models/IUser';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import {  submitLogout } from '../../authReducer';
 
 
 
@@ -95,6 +97,7 @@ const PrimarySearchAppBar: React.FC<{ user: IUser }> = ({ user }) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     const isMenuOpen = Boolean(anchorEl);
+    const dispatch = useDispatch();
 
     const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -108,6 +111,7 @@ const PrimarySearchAppBar: React.FC<{ user: IUser }> = ({ user }) => {
 
     const handleLogout = () => {
         sessionStorage.clear();
+        dispatch(submitLogout());
         navigate('/');
     }
 

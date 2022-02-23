@@ -4,6 +4,7 @@ import { login, register } from "./services/authService";
 import { getCookieJWTInfo } from "./services/userService"
 import jwt_decode from 'jwt-decode';
 import { AppThunk } from "./store";
+import { emptyUser } from "./constants";
 const initialUser = getCookieJWTInfo();
 const token = sessionStorage.getItem('SESSION_TOKEN');
 
@@ -23,7 +24,10 @@ const auth = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-
+        logout(state) {
+            state.user = emptyUser;
+            state.token = null;
+        },
         loginSuccess(state, action: PayloadAction<AuthState>) {
             state.user = action.payload.user;
             state.token = action.payload.token;
@@ -36,11 +40,15 @@ const auth = createSlice({
 })
 
 export const {
+    logout,
     loginSuccess,
     loginFailure,
 } = auth.actions
 export default auth.reducer
 
+export const submitLogout = (): AppThunk => async (dispatch, getState)=>{
+    dispatch(logout());
+}
 
 export const submitLogin = (email: string, password: string): AppThunk => async (dispatch, getState) => {
     try {

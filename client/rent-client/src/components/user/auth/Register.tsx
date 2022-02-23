@@ -2,11 +2,13 @@ import { Button } from "@material-ui/core";
 import { FormikProvider, useFormik } from 'formik';
 import * as yup from 'yup';
 import { initialValues } from '../../../constants'
-import { userRole } from "../../../models/enums/Role";
+import { userRoleNarrow } from "../../../models/enums/Role";
 import { useNavigate } from "react-router-dom";
 import { submitRegister } from "../../../authReducer";
 import { useDispatch } from "react-redux";
 import CustomField from "../../core/CustomField";
+import MaterialRadio1 from "../../core/MaterialRadio1";
+import { useState } from "react";
 
 
 const validationSchema = yup.object({
@@ -26,7 +28,7 @@ const validationSchema = yup.object({
         .string()
         .min(3, 'Password should be of minimum 3 characters length')
         .required('Password is required'),
-    role: yup.number().oneOf([userRole.Guest, userRole.Owner])
+    role: yup.number().oneOf([userRoleNarrow.Guest, userRoleNarrow.Owner])
 
 });
 
@@ -35,9 +37,10 @@ const Register: React.FC<{}> = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [r, setR] = useState<userRoleNarrow>(userRoleNarrow.Guest)
 
     const formik = useFormik({
-        initialValues: initialValues,
+        initialValues: { ...initialValues },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
             alert(JSON.stringify(values, null, 2));
@@ -52,6 +55,17 @@ const Register: React.FC<{}> = () => {
             }
         },
     });
+
+
+    function handleRadio(e: any) {       
+        formik.handleChange(e);      
+        const next = +e.target.value;
+        setR(next);
+        console.log(r);
+       // formik.values.role = r;
+        console.log(formik.values.role);
+    }
+
 
 
     return (
@@ -69,29 +83,9 @@ const Register: React.FC<{}> = () => {
 
                     <CustomField name="password" label="Password" type="password" val={formik.values.password!}
                         handleChange={formik.handleChange} placeholder={initialValues.password} fullwidth={true} />
-                    <div id="my-radio-group">userRole</div>
+                    <div id="my-radio-group">role</div>
+                    <MaterialRadio1 name="role" label="user role" val={r} type={userRoleNarrow} handleChange={handleRadio} />
 
-                    <div className="form-control">
-                        <input
-                            type="radio"
-                            value="Owner"
-                            name="userRole"
-                            checked={+formik.values.role === userRole.Owner}
-                            onChange={formik.handleChange}
-                        />
-                        <label>Owner</label>
-                    </div>
-
-                    <div className="form-control">
-                        <input
-                            type="radio"
-                            value="Guest"
-                            name="userRole"
-                            checked={+formik.values.role === userRole.Guest}
-                            onChange={formik.handleChange}
-                        />
-                        <label>Guest</label>
-                    </div>
                     <Button color="primary" disabled={!(formik.isValid && formik.dirty)} variant="contained" fullWidth type="submit">
                         Submit
                     </Button>

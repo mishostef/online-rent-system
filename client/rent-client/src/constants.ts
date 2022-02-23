@@ -1,4 +1,4 @@
-import { userRole } from "./models/enums/Role";
+import { userRole, userRoleNarrow } from "./models/enums/Role";
 import { IUser } from "./models/IUser";
 import { getCookieJWTInfo } from "./services/userService";
 
@@ -19,28 +19,16 @@ export const initialValues: IUser = {
     lastName: '',
     email: 'foobar@example.com',
     password: 'foobar',
-    role: userRole.Guest
+    role: userRoleNarrow.Guest
 }
 
-/*export const editInitialValues = (): IUser => {
-    const user = getCookieJWTInfo();
-    const initialValues: IUser = {
-        email: user?.email || '',
-        password: "***",
-        firstName: user?.firstName!,
-        lastName: user?.lastName!,
-        role: user?.role!
-    }
-    console.log(user)
-    return initialValues;
-}*/
 
 export const emptyUser: IUser = {
     email: '',
     password: '',
     firstName: '',
     lastName: '',
-    role: userRole.Guest
+    role: userRoleNarrow.Guest
 }
 
 export const getInfo = (defaultValue: IUser) => {
