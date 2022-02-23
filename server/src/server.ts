@@ -4,7 +4,7 @@ import { expressConfig } from './config/express';
 import { routeConfig } from './config/routes';
 import { ClientToServerEvents, InterServerEvents, ServerToClientEvents, SocketData } from './socket';
 import { Server } from 'socket.io';
-import cors = require('cors');
+import * as cors from 'cors';
 
 const app = express();
 async function start() {
@@ -59,5 +59,4 @@ async function start() {
 
 
 start();
-
 

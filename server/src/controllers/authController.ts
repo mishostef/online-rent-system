@@ -9,7 +9,8 @@ router.post('/register', isGuest(), async (req, res, next) => {
 
     console.log(req.body);
 
-    const { email, password, firstName, lastName, role } = req.body;
+    const { email, password, firstName, lastName } = req.body;
+    const role = +req.body.role;
     try {
         const regex = /\S+@\S+\.\S+/gm;
         const isValidEmail = (regex.test(req.body.email));
