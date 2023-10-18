@@ -11,10 +11,19 @@ import { getDateString, sendData } from "../../utils/utils";
 import { resourcesAddress, staticAddress } from "../../constants";
 import CustomField from "../core/CustomField";
 import MaterialRadio from "../core/MaterialRadio";
+import FormControlLabel from "@material-ui/core";
 import { IUser } from "../../models/IUser";
 
 
 const useStyles = makeStyles(theme => ({
+    center: {
+        width: '40%',
+        margin: '0 auto'
+    },
+    form: {
+        border: '2px solid #ffaaff',
+        borderRadius: '10px'
+    },
     dialogPaper: {
         height: '100px'
     },
@@ -25,7 +34,22 @@ const useStyles = makeStyles(theme => ({
     },
     chkbox: {
         float: 'left',
+        //alignItems: 'center'
     },
+    block: {
+        display: 'block',
+    },
+    hidden: {
+        display: 'none'
+    },
+    file: {
+
+        maxWidthidth: '90px',
+        overflow: 'hidden',
+    },
+    flex: {
+        display: 'flex'
+    }
 }));
 
 
@@ -121,29 +145,48 @@ const AddAdvertisement: React.FC<{ props: ResourceTemplate, method: string, reso
     return (
         <FormikProvider value={formik}>
             <div>
-                <form onSubmit={formik.handleSubmit} >
+                <form className={`${classes.form} ${classes.center}`} onSubmit={formik.handleSubmit} >
                     <MaterialField name='address' rowsMax={20} label='address' />
                     <MaterialField name='description' label='description' />
                     <MaterialField name='shortDescription' rowsMax={20} label='Short description' />
-                    <Grid container spacing={2}>
-                        <Grid item xs={3}>
-                            <input type="file" name="avatar" onChange={handleFileSelect} />
-                            {img && <img src={imageUrl} width="50px" alt="no img" />}
+                    <Grid container spacing={4} direction="row">
+                        <Grid item xs={6} >
+                            {/* <label htmlFor="file" ></label>
+                            <input id="file" className={classes.file} type="file" name="avatar" onChange={handleFileSelect} />
+                            {img && <img src={imageUrl} width="50px" alt="no img" />} */}
+
+
+                            
+
+                            <Button
+                                variant="contained"
+                                component="label"
+                            >
+                                Upload File
+                                <input
+                                    type="file"
+                                    hidden
+                                    onChange={handleFileSelect}
+                                />
+                            </Button>
+                            {img && <img src={imageUrl} width="50px" alt="no img" />} 
                         </Grid>
-                        <Grid item xs={2}>
-                            <label className="classes.chkbox">isMD {`${formik.values.isMD}`}
-                                <Field type="checkbox" name="isMD" onChange={formik.handleChange} />
-                            </label>
+                        <Grid className={`${classes.chkbox} ${classes.center}`} spacing={4} item xs={2}>
+                            <Grid item xs={12} className={`${classes.chkbox}`}>
+                                <label >isMD {`${formik.values.isMD}`}
+                                    <Field className={classes.block} type="checkbox" name="isMD" onChange={formik.handleChange} />
+                                </label>
+                            </Grid>
                         </Grid>
-                        <Grid item xs={3}>
-                            <CustomField label="From: " name="date" type="date" val={getDateString(formik.values.date)} handleChange={formik.handleChange} classes={classes.chkbox} />
+                        <Grid item xs={6}>
+                            <CustomField classes={classes.flex} label="From: " name="date" type="date" val={getDateString(formik.values.date)} handleChange={formik.handleChange} />
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={6} >
                             <MaterialRadio name="resourceType" label="resource type" val={restype} handleChange={(e) => handleRadio(e)} />
                         </Grid>
                     </Grid>
 
-                    <Button color="primary" disabled={!(formik.isValid && formik.dirty) || !formik.touched} variant="contained" fullWidth type="submit">
+                    <Button color="primary" disabled={!(formik.isValid && formik.dirty) || !formik.touched} variant="contained" type="submit">
                         Submit
                     </Button>
                     <Button color="secondary" className="outline" onClick={() => formik.resetForm()}>
